@@ -12,7 +12,17 @@ module Jekyll
       mutable false
 
       def_delegator :@obj, :relative_path, :path
-      def_delegators :@obj, :id, :output, :content, :to_s, :relative_path, :url
+      def_delegators :@obj, :id, :to_s, :relative_path, :url
+
+      def content
+        link_dependency
+        @obj.content
+      end
+
+      def output
+        link_dependency
+        @obj.output
+      end
 
       private def_delegator :@obj, :data, :fallback_data
 

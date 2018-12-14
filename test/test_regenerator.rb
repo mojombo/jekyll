@@ -309,6 +309,55 @@ class TestRegenerator < JekyllUnitTest
     end
   end
 
+  # Make sure appropriate dependencies are handled
+  context "The site metadata" do
+    setup do
+      FileUtils.rm_rf(source_dir(".jekyll-metadata"))
+
+      @site = Site.new(Jekyll.configuration({
+        "source" => source_dir,
+        "destination" => dest_dir,
+        "incremental" => true
+      }))
+
+      @site.process
+      @layout_post = (@site.posts.find { |post| post.data["layout"] == "default" }).path
+      @includes_post = (@site.posts.find { |post| post.data["title"] == "Include" }).path
+
+      @content_page = @site.pages.find { |page| page.data["title"] == "Content Dependency"}
+      @random_post = @site.posts.sample.path
+
+      @regenerator = @site.regenerator
+    end
+
+    should "add layouts as a dependency" do
+      refute @regenerator.metadata[@layout_post].nil?
+      layout_dep = @regenerator.metadata[@layout_post]["deps"].find { |dep|
+        dep =~ /_layouts\/default.html$/
+      }
+      refute layout_dep.nil?
+    end
+
+    should "add includes as a dependency" do
+      refute @regenerator.metadata[@includes_post].nil?
+      includes_dep = @regenerator.metadata[@includes_post]["deps"].find { |dep|
+        dep =~ /_includes\/sig.markdown$/
+      }
+      refute includes_dep.nil?
+    end
+
+    should "add documents as a dependency when content referenced" do
+      page_path = @site.in_source_dir(@content_page.relative_path)
+      refute @regenerator.metadata[page_path].nil?
+
+      post_dep = @regenerator.metadata[page_path]["deps"].find { |dep|
+        dep.include? @random_post
+      }
+
+      refute post_dep.nil?
+    end
+  end
+
   context "when incremental regeneration is disabled" do
     setup do
       FileUtils.rm_rf(source_dir(".jekyll-metadata"))

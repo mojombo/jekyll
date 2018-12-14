@@ -796,7 +796,7 @@ class TestFilters < JekyllUnitTest
               "The list of grouped items for 'default' is not an Array."
             )
             # adjust array.size to ignore symlinked page in Windows
-            qty = Utils::Platforms.really_windows? ? 4 : 5
+            qty = Utils::Platforms.really_windows? ? 5 : 6
             assert_equal qty, g["items"].size
           when "nil"
             assert(
@@ -994,7 +994,7 @@ class TestFilters < JekyllUnitTest
               "The list of grouped items for 'default' is not an Array."
             )
             # adjust array.size to ignore symlinked page in Windows
-            qty = Utils::Platforms.really_windows? ? 4 : 5
+            qty = Utils::Platforms.really_windows? ? 5 : 6
             assert_equal qty, g["items"].size
           when "nil"
             assert(

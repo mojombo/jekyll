@@ -82,6 +82,7 @@ module Jekyll
       Jekyll.logger.debug "Rendering Markup:", document.relative_path
       output = convert(output.to_s)
       document.content = output
+      document.output = output
 
       if document.place_in_layout?
         Jekyll.logger.debug "Rendering Layout:", document.relative_path
