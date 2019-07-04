@@ -2,15 +2,14 @@
 
 module Jekyll
   module Utils
-    module WinTZ
+    module TimeZone
       extend self
 
-      # Public: Calculate the Timezone for Windows when the config file has a defined
-      #         'timezone' key.
+      # Public: Calculate the Time Zone when the config file has a defined 'timezone' key.
       #
       # timezone - the IANA Time Zone specified in "_config.yml"
       #
-      # Returns a string that ultimately re-defines ENV["TZ"] in Windows
+      # Returns a string that ultimately re-defines ENV["TZ"]
       def calculate(timezone)
         External.require_with_graceful_fail("tzinfo") unless defined?(TZInfo)
         tz = TZInfo::Timezone.get(timezone)
