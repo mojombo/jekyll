@@ -206,4 +206,5 @@ require_all "jekyll/drops"
 require_all "jekyll/generators"
 require_all "jekyll/tags"
 
+require "jekyll-commonmark"
 require "jekyll-sass-converter"

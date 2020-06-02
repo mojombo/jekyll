@@ -8,6 +8,9 @@ platforms :mswin, :mingw, :x64_mingw do
   gem "ffi", "~> 1.12.2"
 end
 
+# Temporarily point to the 'master' branch of the "jekyll/jekyll-commonmark" repository.
+gem "jekyll-commonmark", :github => "jekyll/jekyll-commonmark", :branch => "master"
+
 gem "rake", "~> 13.0"
 
 group :development do
