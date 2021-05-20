@@ -273,6 +273,8 @@ module Jekyll
         # by the user.  This method determines what we do based on what you
         # ask us to do.
         def boot_or_detach(server, opts)
+          Build::Footprint.register(server, opts.merge("url" => default_url(opts)))
+
           if opts["detach"]
             pid = Process.fork do
               server.start
@@ -287,6 +289,8 @@ module Jekyll
             trap("INT") { server.shutdown }
             t.join
           end
+
+          Build::Footprint.erase(server)
         end
 
         # Make the stack verbose if the user requests it.
