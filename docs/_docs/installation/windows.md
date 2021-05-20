@@ -62,7 +62,7 @@ sudo apt-get install ruby2.5 ruby2.5-dev build-essential dh-autoreconf
 Next, update your Ruby gems:
 
 ```sh
-gem update
+sudo gem update
 ```
 
 Install Jekyll:
